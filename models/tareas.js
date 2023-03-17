@@ -1,4 +1,4 @@
-import Tarea from "./tarea";
+import Tarea from "./tarea.js";
 
 
 class Tareas {
@@ -11,12 +11,11 @@ class Tareas {
 
 
     crearTarea(desc = ''){
+        
         const tarea = new Tarea(desc);
         this._listado [tarea.id] = tarea;
 
     }
 
 }
-
-
 export default Tareas;

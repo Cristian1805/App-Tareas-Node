@@ -2,7 +2,7 @@ import colors from 'colors';
 //==========================================================
 import { inquirerMenu, pausa, leerInput } from './helpers/inquirer.js';
 import Tareas from './models/tareas.js';
-// import Tarea from './models/tarea.js';
+// import {Tarea} from './models/tarea.js';
  
 console.clear();
  
@@ -26,16 +26,6 @@ const main = async () => {
           console.log(tareas._listado) 
       break;
     }
-
-    
-    // console.log(tarea);
-    
-    // const tarea = new Tarea('Comprar articulos');
-
-    // tareas._listado[tarea.id] = tarea;
-
-    // console.log(tareas);
-
 
     await pausa();
 
