@@ -13,7 +13,7 @@ class Tareas {
             const tarea = this._listado[key];
             listado.push(tarea)
         });
-        return listado;
+        return listado; 
     }
 
     constructor(){
