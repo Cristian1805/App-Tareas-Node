@@ -1,12 +1,12 @@
 // const fs = require('fs');
 // import writeFile from 'fs';
 
-import fs from 'fs'
+import fs from 'fs';
 // import * as fs from 'fs'; //Forma correcta de utilizarla
-const archivo = '../BaseDatos.txt'
+const archivo = './BaseDatos/data.json'
 
 
-const guardarDB = (data) => {    
+const guardarDB = ( data ) => {    
     fs.writeFileSync(archivo, JSON.stringify(data));
 }
 
