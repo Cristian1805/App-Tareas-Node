@@ -34,15 +34,12 @@ const main = async () => {
       break;
     
       case '2':
-          console.log(tareas.ListadoArr) 
+          console.log(tareas.listadoCompleto);
       break;
     }
 
 
-    // guardarDB( tareas.ListadoArr);
-
-
-
+    guardarDB( tareas.ListadoArr);
     await pausa();
 
   } while (opt !== '0');

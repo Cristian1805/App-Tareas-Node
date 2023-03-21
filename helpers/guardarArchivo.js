@@ -1,9 +1,9 @@
 // const fs = require('fs');
 // import writeFile from 'fs';
-// import fs from 'fs'
 
-import * as fs from 'fs'; //Forma correcta de utilizarla
-const archivo = '../db/data.json'
+import fs from 'fs'
+// import * as fs from 'fs'; //Forma correcta de utilizarla
+const archivo = '../BaseDatos.txt'
 
 
 const guardarDB = (data) => {    

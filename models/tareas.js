@@ -32,7 +32,10 @@ class Tareas {
         
         const tarea = new Tarea(desc);
         this._listado [tarea.id] = tarea;
+    }
 
+    listadoCompleto() {
+        console.log(this._listado);
     }
 
 }
