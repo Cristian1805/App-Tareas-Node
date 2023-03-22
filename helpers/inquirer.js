@@ -14,7 +14,7 @@ const menuOpts = [
 
         {
             value: '2',
-            name: `${'2.'.green}Listar tareas`
+            name: `${'2.'.green}Listar tareas` 
         },
 
         {
@@ -46,7 +46,7 @@ const menuOpts = [
   },
 ];
  
-const inquirerMenu = async () => {
+export const inquirerMenu = async () => {
 
   console.clear();
   console.log('==========================='.green);
@@ -123,7 +123,7 @@ const listadoTareasBorrar = async (tareas = []) => {
     return id;
 }
 
-const confirmar = async(message) => {
+export const confirmar = async(message) => {
     const question = [
         {
             type: 'confirm',

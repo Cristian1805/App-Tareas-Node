@@ -3,7 +3,7 @@ const fs = require('fs');
 const archivo = './BaseDatos/data.json'
 
 
-const guardarDB = ( data ) => {    
+export const guardarDB = ( data ) => {    
     fs.writeFileSync(archivo, JSON.stringify(data));
 }
 
