@@ -1,88 +1,81 @@
-const Tarea = require('./tarea');
+require('colors');
+
+const { guardarDB, leerDB } = require('./helpers/guardarArchivo');
+const { inquirerMenu, 
+        pausa,
+        leerInput,
+        listadoTareasBorrar,
+        confirmar,
+        mostrarListadoChecklist
+} = require('./helpers/inquirer');
+
+const Tareas = require('./models/tareas');
 
 
-class Tareas {
+const main = async() => {
 
-    _listado = {
-        'xyz': 123
-    };
+    let opt = '';
+    const tareas = new Tareas();
 
-    get ListadoArr() {
+    const tareasDB = leerDB();
 
-        const listado = []
-        Object.keys(this._listado).forEach(key => {
-            const tarea = this._listado[key];
-            listado.push(tarea)
-        });
-        return listado; 
+    if ( tareasDB ) { // cargar tareas
+        tareas.cargarTareasFromArray( tareasDB );
     }
 
-    constructor(){
-        this._listado = {};
-    }
+    do {
+        // Imprimir el menú
+        opt = await inquirerMenu();
 
-    borrarTarea(id = ''){
-        if(this._listado[id]){
-            delete this._listado[id];
+        switch (opt) {
+            case '1':
+                // crear opcion
+                const desc = await leerInput('Descripción:');
+                tareas.crearTarea( desc );
+            break;
+
+            case '2':
+                tareas.listadoCompleto();
+            break;
+            
+            case '3': // listar completadas
+                tareas.listarPendientesCompletadas(true);
+            break;
+
+            case '4': // listar pendientes
+                tareas.listarPendientesCompletadas(false);
+            break;
+
+            case '5': // completado | pendiente
+                const ids = await mostrarListadoChecklist( tareas.listadoArr );
+                tareas.toggleCompletadas( ids );
+            break;
+                       
+            case '6': // Borrar
+                const id = await listadoTareasBorrar( tareas.listadoArr );
+                if ( id !== '0' ) {
+                    const ok = await confirmar('¿Está seguro?');
+                    if ( ok ) {
+                        tareas.borrarTarea( id );
+                        console.log('Tarea borrada');
+                    }
+                }
+            break;
+        
         }
-    }
-
-    cargarTareasFromArray (tareas=[]) {
-
-        tareas.forEach(tarea => {
-            this._listado[tarea.id] = tarea;
-        });
-    }
 
 
-    crearTarea(desc = ''){
-        
-        const tarea = new Tarea(desc);
-        this._listado [tarea.id] = tarea;
-    }
+        guardarDB( tareas.listadoArr );
 
-    listadoCompleto() {
+        await pausa();
 
-        console.log();
-        this.ListadoArr.forEach((tarea, i) => {
-            
-            const idx = `${i + 1}`.green;
-            const {desc, completadoEn} = tarea;
-            const estado = (completadoEn)
-                             ? 'Completada'.green
-                             : 'Pendiente'.red
-            console.log(`${idx} ${desc} :: ${estado}`);
-        }); 
-    }
-    
-    ListarPendientesCompletadas(completadas = true ){
-        
-        console.log();
-        let contador = 0;
-        this.ListadoArr.forEach((tarea) => {
-            
-            const {desc, completadoEn} = tarea;
-            const estado = (completadoEn)
-                             ? 'Completado'.green
-                             : 'Pendiente'.red;
-            if (completadas){
-                //mostrar completadas
-                if (completadoEn){
-                    contador1 +=1;
-                    console.log(`${ (contador1 + '.').green} ${desc} :: ${completadoEn}`);
-                }
-            } else {
-                //Mostrar pendientes
-                if ( !completadoEn){
-                    contador +=1;
-                    console.log(`${(contador + '.').green} ${desc} :: ${estado}`);
-                }
-            }
+    } while( opt !== '0' );
 
-        }); 
 
-        
-    }
+    // pausa();
 
 }
-export default Tareas;
+
+
+main();
+

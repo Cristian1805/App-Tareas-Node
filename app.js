@@ -47,7 +47,11 @@ const main = async () => {
 
       case '5': //Completado o pendiente
         const ids = await mostrarListadoChecklists(tareas.ListadoArr);
+<<<<<<< HEAD
         tareas.toggleCompletadas(ids);
+=======
+        console.log(ids);
+>>>>>>> 924dbdd (Multiples selecciones)
       break;
 
       case '6':
