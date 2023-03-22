@@ -3,7 +3,9 @@ import Tarea from "./tarea.js";
 
 class Tareas {
 
-    _listado = {};
+    _listado = {
+
+    };
 
     get ListadoArr() {
 
@@ -18,6 +20,12 @@ class Tareas {
 
     constructor(){
         this._listado = {};
+    }
+
+    borrarTarea(id = ''){
+        if(this._listado[id]){
+            delete this._listado[id];
+        }
     }
 
     cargarTareasFromArray (tareas=[]) {
@@ -41,12 +49,41 @@ class Tareas {
             
             const contador = `${idx + 1}`.green;
             const {desc, completadoEn} = tarea;
-            const estado = (completadoEn) ? 'Completado'.green: 'Pendiente'.red
+            const estado = (completadoEn)
+                             ? 'Completado'.green
+                             : 'Pendiente'.red
             console.log(`${idx} ${desc} :: ${estado}`);
             // console.log(idx);
-        });
+        }); 
+    }
+    
+    ListarPendientesCompletadas(completadas = true ){
+        console.log();
+        let contador1 = 0;
+        this.ListadoArr.forEach((tarea) => {
+            
+            const {desc, completadoEn} = tarea;
+            const estado = (completadoEn)
+                             ? 'Completado'.green
+                             : 'Pendiente'.red
+            if (completadas){
+                //mostrar completadas
+                if (completadoEn){
+                    contador1 +=1;
+                    console.log(`${ (contador1 + '.').green} ${desc} :: ${completadoEn}`);
+                }
+            } else {
+                //Mostrar pendientes
+                if ( !completadoEn){
+                    contador1 +=1;
+                    console.log(`${(contador1 + '.').green} ${desc} :: ${estado}`);
+                }
+            }
 
-    } 
+        }); 
+
+        
+    }
 
 }
 export default Tareas;
