@@ -1,7 +1,4 @@
-// const fs = require('fs');
-// import writeFile from 'fs';
-
-import fs from 'fs';
+const fs = require('fs');
 // import * as fs from 'fs'; //Forma correcta de utilizarla
 const archivo = './BaseDatos/data.json'
 
@@ -15,7 +12,7 @@ const leerDB = () => {
         return null;
     }
 
-    const info = fs.readFileSync(archivo, {encoding: 'utf-8'})
+    const info = fs.readFileSync(archivo, {encoding: 'utf-8'});
     const data = JSON.parse(info);
 
     // console.log(data);
@@ -25,4 +22,7 @@ const leerDB = () => {
 
 }
 
-export {guardarDB, leerDB}
+module.exports = {
+    guardarDB, 
+    leerDB
+}

@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uudiv4 } = require('uuid');
 
 class Tarea {
 
@@ -6,14 +6,14 @@ class Tarea {
     descr = '';
     completadoEn = null;
 
-    constructor(desc) {
+    constructor( desc ) {
 
         this.id = uuidv4();
         this.descr = desc;
-        this.completadoEn = null;
+        this.completadoEn = null; 
 
     }
 
 }
 
-export default Tarea;
+module.exports = Tarea;

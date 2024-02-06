@@ -1,5 +1,5 @@
-import inquirer from 'inquirer';
-import colors from 'colors';
+const inquirer = require('inquirer');
+require('colors')
  
 const menuOpts = [
   {
@@ -47,6 +47,7 @@ const menuOpts = [
 ];
  
 const inquirerMenu = async () => {
+
   console.clear();
   console.log('==========================='.green);
   console.log('   Seleccione una opción'.white);
@@ -109,7 +110,7 @@ const listadoTareasBorrar = async (tareas = []) => {
         name: '0.'.green + 'Cancelar'
     });
 
-    const preguntas = [
+    const menuOpts  = [
         {
             type: 'list',
             name: 'id',
@@ -118,7 +119,7 @@ const listadoTareasBorrar = async (tareas = []) => {
         }
     ]
 
-    const { id } = await inquirer.prompt(preguntas);
+    const { id } = await inquirer.prompt(menuOpts);
     return id;
 }
 
@@ -162,4 +163,4 @@ const mostrarListadoChecklists = async (tareas = []) => {
 }
 
  
-export { inquirerMenu, pausa, leerInput, listadoTareasBorrar, confirmar, mostrarListadoChecklists};
+module.exports = { inquirerMenu, pausa, leerInput, listadoTareasBorrar, confirmar, mostrarListadoChecklists}; 
