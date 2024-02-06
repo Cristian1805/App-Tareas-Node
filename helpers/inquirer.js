@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-require('colors'); 
+const colors = require('colors'); 
 
 const preguntas = [
     {

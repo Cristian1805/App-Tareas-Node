@@ -1,76 +1,81 @@
-import colors from 'colors';
-import  {guardarDB, leerDB } from './helpers/guardarArchivo.js';
-//==========================================================
-import { inquirerMenu, pausa, leerInput, listadoTareasBorrar, confirmar, mostrarListadoChecklists } from './helpers/inquirer.js';
-import Tareas from './models/tareas.js';
-// import {Tarea} from './models/tarea.js';
- 
-console.clear();
- 
-const main = async () => {
-  
-  let opt = '';
-  const tareas = new Tareas();
+const colors = require('colors');
 
-  const tareasDB = leerDB();
+const { guardarDB, leerDB } = require('./helpers/guardarArchivo');
+const { inquirerMenu, 
+        pausa,
+        leerInput,
+        listadoTareasBorrar,
+        confirmar,
+        mostrarListadoChecklist
+} = require('./helpers/inquirer');
 
-  if (tareasDB){ //Establecer las tareas
-    tareas.cargarTareasFromArray(tareasDB); 
-    
-  }
-  await pausa();
-  
-  do {
+const Tareas = require('./models/tareas');
 
-    //Esta opcion imprime el menú
-    opt = await inquirerMenu();
-    // console.log({ opt });
 
-    switch (opt) {
-      case '1':
-        //Crear la opcion
-        const desc = await leerInput('Descripcion: ');
-        tareas.crearTarea(desc);
-      break;
-    
-      case '2':
-        tareas.listadoCompleto();
-      break;
+const main = async() => {
 
-      case '3': //Listar completadasx
-        tareas.ListarPendientesCompletadas(true);
-      break;
+    let opt = '';
+    const tareas = new Tareas();
 
-      case '4':
-        tareas.ListarPendientesCompletadas(false);
-      break;
+    const tareasDB = leerDB();
 
-      case '5': //Completado o pendiente
-        const ids = await mostrarListadoChecklists(tareas.ListadoArr);
-<<<<<<< HEAD
-        tareas.toggleCompletadas(ids);
-=======
-        console.log(ids);
->>>>>>> 924dbdd (Multiples selecciones)
-      break;
-
-      case '6':
-        const id = await listadoTareasBorrar(tareas.ListadoArr);
-        if (id !== '0'){
-          const ok = await confirmar('Esta seguro de que desea borrar la tarea?')
-          if (ok ){
-            tareas.borrarTarea(id);
-            console.log('Tarea borrada correctamente')
-          }
-        }
-      break;
+    if ( tareasDB ) { // cargar tareas
+        tareas.cargarTareasFromArray( tareasDB );
     }
 
+    do {
+        // Imprimir el menú
+        opt = await inquirerMenu();
 
-    guardarDB( tareas.ListadoArr);
-    await pausa();
+        switch (opt) {
+            case '1':
+                // crear opcion
+                const desc = await leerInput('Descripción:');
+                tareas.crearTarea( desc );
+            break;
 
-  } while (opt !== '0');
-};
- 
+            case '2':
+                tareas.listadoCompleto();
+            break;
+            
+            case '3': // listar completadas
+                tareas.listarPendientesCompletadas(true);
+            break;
+
+            case '4': // listar pendientes
+                tareas.listarPendientesCompletadas(false);
+            break;
+
+            case '5': // completado | pendiente
+                const ids = await mostrarListadoChecklist( tareas.listadoArr );
+                tareas.toggleCompletadas( ids );
+            break;
+                       
+            case '6': // Borrar
+                const id = await listadoTareasBorrar( tareas.listadoArr );
+                if ( id !== '0' ) {
+                    const ok = await confirmar('¿Está seguro?');
+                    if ( ok ) {
+                        tareas.borrarTarea( id );
+                        console.log('Tarea borrada');
+                    }
+                }
+            break;
+        
+        }
+
+
+        guardarDB( tareas.listadoArr );
+
+        await pausa();
+
+    } while( opt !== '0' );
+
+
+    // pausa();
+
+}
+
+
 main();
+
